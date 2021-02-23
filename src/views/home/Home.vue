@@ -1,6 +1,7 @@
 <template>
   <div id="home">
     <NavList></NavList>
+    <router-view></router-view>
   </div>
 </template>
 

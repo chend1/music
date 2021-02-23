@@ -6,6 +6,7 @@ const Friend = () => import('../views/friend/Friend.vue')
 const Shop = () => import('../views/shop/Shop.vue')
 const Musician = () => import('../views/musician/Musician.vue')
 const Download = () => import('../views/download/Download.vue')
+const Single = () => import('../views/single/Single.vue')
 
 Vue.use(VueRouter)
 
@@ -79,6 +80,11 @@ const routes = [
     path: '/download',
     name: 'Download',
     component: Download
+  },
+  {
+    path: '/song/:iid',
+    name: 'Single',
+    component: Single
   }
 ]
 
