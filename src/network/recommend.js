@@ -8,3 +8,12 @@ export function getBanner(type){
     }
   })
 }
+// 请求推荐歌曲数据
+export function getRcoSong(num){
+  return request({
+    url: '/personalized',
+    params: {
+      limit: num
+    }
+  })
+}

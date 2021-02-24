@@ -25,7 +25,7 @@
     line-height: 30px;
     border-bottom: 2px solid #C10D0C;
   }
-  .left,center{
+  .left,.center{
     float: left;
   }
   .right{
