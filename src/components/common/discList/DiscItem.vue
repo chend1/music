@@ -1,17 +1,15 @@
 <template>
-  <div class="songBar wrap">
+  <div class="discItem">
     <slot></slot>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'SongBar'
+    name: 'DiscItem'
   }
 </script>
 
 <style scoped>
-.songBar{
-  overflow: hidden;
-}
+
 </style>

@@ -17,3 +17,9 @@ export function getRcoSong(num){
     }
   })
 }
+// 请求新碟数据
+export function getNewDisc(){
+  return request({
+    url: '/album/newest',
+  })
+}

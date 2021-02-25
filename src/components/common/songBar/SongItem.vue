@@ -11,5 +11,7 @@
 </script>
 
 <style scoped>
-
+.songItem{
+  height: 225px;
+}
 </style>
