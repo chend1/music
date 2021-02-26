@@ -6,6 +6,7 @@
           <div class="discItem" v-for="(item,index) in discLists1" :key="index">
             <div class="img">
               <img :src="item.blurPicUrl" alt="">
+              <router-link :to=" { path: '/new/'+ item.id} "></router-link>
             </div>
             <div class="name">
               <router-link :to=" { path: '/new/'+ item.id} ">
@@ -93,6 +94,19 @@
   height: 185px;
   /* overflow: hidden; */
 }
+.img{
+  position: relative;
+}
+.img a{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(~assets/images/coverall.png);
+    background-position: -4px -570px;
+  }
 .slide{
   width: 100%;
 }
@@ -106,8 +120,7 @@
 }
 .img img{
   display: block;
-  width: 100%;
-  margin: 0 auto;
+  width: 100px;
 }
 .name,.tit{
   white-space: nowrap;

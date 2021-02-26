@@ -23,3 +23,18 @@ export function getNewDisc(){
     url: '/album/newest',
   })
 }
+
+// 请求榜单
+export function getList(){
+  return request({
+    url: '/toplist/detail',
+  })
+}
+export function getRankList(id){
+  return request({
+    url: '/playlist/detail',
+    params: {
+      id
+    }
+  })
+}
