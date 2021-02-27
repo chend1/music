@@ -25,16 +25,37 @@ export function getNewDisc(){
 }
 
 // 请求榜单
-export function getList(){
-  return request({
-    url: '/toplist/detail',
-  })
-}
+// export function getList(){
+//   return request({
+//     url: '/toplist/detail',
+//   })
+// }
 export function getRankList(id){
   return request({
     url: '/playlist/detail',
     params: {
       id
+    }
+  })
+}
+
+// 请求歌手列表
+export function getSingerList(type,limit,area){
+  return request({
+    url: '/artist/list',
+    params: {
+      type,
+      limit,
+      area
+    }
+  })
+}
+// 主播榜
+export function getAnchor(limit){
+  return request({
+    url: '/dj/toplist/popular',
+    params: {
+      limit
     }
   })
 }

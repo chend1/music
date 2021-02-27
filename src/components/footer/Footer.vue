@@ -56,12 +56,23 @@
           </ul>
       </div>
     </div>
+    <PlayBar class="paly-bar"></PlayBar>
   </div>
 </template>
 
 <script>
+  import PlayBar from 'components/common/playBar/PlayBar'
+  import { getSongData,getSongPlay } from 'network/song'
   export default {
-    name: 'Footer'
+    name: 'Footer',
+    components: {
+      PlayBar
+    },
+    created(){
+      getSongPlay(3986241).then( res => {
+        console.log(res);
+      })
+    }
   }
 </script>
 
@@ -73,6 +84,12 @@
     overflow: hidden;
     border-top: 1px solid #d3d3d3;
     background: #f2f2f2;
+  }
+  .paly-bar{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
   .list{
     float: left;

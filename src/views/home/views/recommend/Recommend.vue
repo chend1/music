@@ -16,6 +16,8 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <AsideTop></AsideTop>
+        <SingerList :singerList="settleSinger"></SingerList>
+        <Anchor :anchorList="anchorData"></Anchor>
       </div>
     </div>
   </div>
@@ -31,8 +33,10 @@
   import RankingList from './childCpn/RankingList'
   // 侧边栏
   import AsideTop from './childCpn/aside/AsideTop'
+  import SingerList from './childCpn/aside/SingerList'
+  import Anchor from './childCpn/aside/Anchor'
   //导入请求函数
-  import {getRcoSong,getNewDisc,getList,getRankList} from 'network/recommend'
+  import {getRcoSong,getNewDisc,getList,getRankList,getSingerList,getAnchor} from 'network/recommend'
   export default {
     name: 'Recommend',
     components: {
@@ -43,7 +47,9 @@
       DiscWrap,
       RankingBar,
       RankingList,
-      AsideTop
+      AsideTop,
+      SingerList,
+      Anchor
     },
     data(){
       return {
@@ -55,6 +61,10 @@
         songList1: {},
         songList2: {},
         songList3: {},
+        // 入驻歌手
+        settleSinger: [],
+        // 主播数据
+        anchorData: []
       }
     },
     created(){
@@ -69,7 +79,6 @@
       getRankList(19723756).then( res => {
         this.songList1 = res.data.playlist;
         this.songList1.tracks = this.songList1.tracks.slice(0,10)
-        console.log(res.data.playlist);
       })
       getRankList(3779629).then( res => {
         this.songList2 = res.data.playlist;
@@ -78,6 +87,16 @@
       getRankList(2884035).then( res => {
         this.songList3 = res.data.playlist;
         this.songList3.tracks = this.songList3.tracks.slice(0,10)
+      })
+      // 入驻歌手
+      getSingerList(-1,5,-1).then( res => {
+        this.settleSinger = res.data.artists
+        // console.log(this.settleSinger);
+      })
+      // 主播
+      getAnchor(5).then( res => {
+        this.anchorData = res.data.data.list
+        console.log(this.anchorData);
       })
     },
     computed: {
