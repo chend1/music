@@ -3,16 +3,41 @@
     <div class="wrap">
       <div class="left">
         <div class="back"></div>
-        <div class="stop"></div>
+        <div class="stop" :class=" { start: $store.state.isPlay } " @click="stopClick"></div>
         <div class="for"></div>
       </div>
       <div class="center">
-        <div class="head">
-          <img src="" alt="">
+        <div class="bar">
+          <div class="head">
+            <img :src="$store.state.musicMsg.head" alt="" v-if="imgShow">
+            <router-link :to="{ path : '/song/'+ $store.state.musicMsg.id }"></router-link>
+          </div>
+          <div class="play">
+            <div class="title">
+              <div class="name">
+                <router-link :to="{ path : '/song/'+ $store.state.musicMsg.id }">
+                  {{$store.state.musicMsg.name}}
+                </router-link>
+              </div>
+              <div class="author">
+                <router-link :to="{ path : '/single/'+ $store.state.musicMsg.aut_id }">
+                  {{$store.state.musicMsg.author}}
+                </router-link>
+              </div>
+            </div>
+            <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp">
+              <div class="bg" :style="{ width: bgWidth+'%'}">
+                <div class="slip" @mousedown="slipDown" ref="slip"></div>
+                <audio :src="$store.state.musicMsg.url" 
+                       :autoplay="$store.state.isPlay"
+                       ref="audio"></audio>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="play">
-          <div class="title"></div>
-          <audio src=""></audio>
+        <div class="time">
+          <span>00:00</span>
+          {{$store.state.musicMsg.time}}
         </div>
       </div>
       <div class="right">
@@ -23,7 +48,11 @@
         <div class="oper">
           <div class="voice">声音</div>
           <div class="order">顺序</div>
-          <div class="lists">列表</div>
+          <div class="lists">
+            <div class="num">
+              {{$store.state.playList.length}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -31,16 +60,74 @@
 </template>
 
 <script>
+  import Aplayer from 'vue-aplayer'
   export default {
     name: 'PlayBarItem',
     components: {
-
+      Aplayer
     },
     data(){
       return {
-
+        // 鼠标按下的坐标
+        pageX: 0,
+        moveX: 0,
+        offsetX: 0,
+        distance: 0,
+        isDown: false,
+        bgWidth: 0
       }
     },
+    computed: {
+      imgShow(){
+        if(this.$store.state.playList.length > 0){
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    methods: {
+      slipDown(e){
+        this.pageX = e.clientX;
+        this.isDown = true;
+        this.offsetX = this.$refs.slip.offsetLeft
+        console.log(this.offsetX);
+      },
+      slipMove(e){
+        if(this.isDown){
+          this.moveX = e.clientX;
+          if(this.moveX >= this.pageX ){
+            this.distance = this.moveX-this.pageX + this.offsetX + 10;
+            this.bgWidth = Math.round((this.distance/439) * 100)
+            console.log(this.bgWidth);
+          }
+          if(this.moveX < this.pageX ){
+            this.distance = this.pageX - this.moveX + this.offsetX + 10;
+            this.bgWidth = Math.round((this.distance/439) * 100)
+            console.log(this.bgWidth);
+          }
+        }
+      },
+      slipUp(){
+        this.isDown = false;
+        console.log(1111);
+      },
+      stopClick(){
+        this.$refs.audio.paused
+        this.$store.commit('stopClick');
+        if(this.$store.state.isPlay){
+          this.$refs.audio.play()
+        } else {
+          this.$refs.audio.pause()
+        }
+      }
+    },
+    filters: {
+      getTime(time){
+        let netTime = new Date(time)
+        console.log(netTime);
+      }
+    }
   }
 </script>
 
@@ -79,8 +166,14 @@
     margin-top: 2px;
     background-position: 0 -206px;
   }
+  .left>div.start{
+    background-position: 0 -167px;
+  }
   .left>div.stop:hover{
     background-position: -40px -206px;
+  }
+  .left>div.start:hover{
+    background-position: -40px -167px;
   }
   .left>div.for{
     background-position: 70px -132px;
@@ -97,8 +190,92 @@
   .center .head,.play{
     float: left;
   }
+  .center .head{
+    width: 34px;
+    height: 34px;
+    margin-top: 5px;
+    position: relative;
+  }
+  .center .head img{
+    width: 34px;
+    height: 34px;
+  }
+  .center .head a{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(~assets/images/playbar.png);
+    background-position: 0px -80px;
+  }
+  .center .head{
+    background-image: url(~assets/images/playbar.png);
+    background-position: 0px -80px;
+  }
+  .center .play .title{
+    height: 22px;
+  }
+  .center .bar{
+    float: left;
+  }
+  .center .time{
+    float: left;
+    margin-top: 23px;
+    padding: 0 10px;
+  }
+  .center .time span{
+    color: #a1a1a1;
+  }
+  .center .play{
+    height: 37px;
+    width: 439px;
+    position: relative;
+    margin-left: 15px;
+    margin-top: 3px;
+  }
+  .center .play .title{
+    overflow: hidden;
+    margin-top: 3px;
+  }
+  .center .play .title .name,.author{
+    float: left;
+  }
+  .center .play .title .name a{
+    color: #e8e8e8;
+  }
+  .author a{
+    color: #9b9b9b;
+    padding-left: 20px;
+  }
+  .center .play .audio{
+    width: 439px;
+    height: 10px;
+    background-color: #151515;
+    border-radius: 5px;
+    border: 1px solid #474747;
+    box-sizing: border-box;
+  }
+  .center .play .audio .bg{
+    max-width: 100%;
+    height: 8px;
+    background-color: red;
+    border-radius: 5px;
+    position: relative;
+  }
+  .center .play .audio .bg .slip{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background-image: url(~assets/images/iconall.png);
+    background-position: 0 -251px;
+  }
   .right{
-    width: 220px;
+    width: 225px;
     padding-right: 25px;
     box-sizing: border-box;
     overflow: hidden;
@@ -109,4 +286,61 @@
   .list .add,.list .share,.voice,.order,.lists{
     float: left;
   }
+  .right .list{
+    margin-right: 20px;
+  }
+  .right .list .add,.right .list .share,.oper .voice,.oper .order{
+    width: 25px;
+    height: 25px;
+    margin-top: 11px;
+    margin-right: 5px;
+    background-image: url(~assets/images/playbar.png);
+    text-indent: -9999px;
+    cursor: pointer;
+  }
+  .right .list .add{
+    background-position: -85px -162px;
+  }
+  .right .list .add:hover{
+    background-position: -85px -188px;
+  }
+  .right .list .share{
+    background-position: -115px -162px;
+  }
+  .right .list .share:hover{
+    background-position: -115px -188px;
+  }
+  .oper .voice{
+    background-position: -5px -247px;
+  }
+  .oper .voice:hover{
+    background-position: -34px -247px;
+  }
+  .oper .order{
+    background-position: -69px -247px;
+  }
+  .oper .order:hover{
+    background-position: -96px -247px;
+  }
+  .oper .lists{
+    position: relative;
+    width: 59px;
+    height: 25px;
+    margin-top: 11px;
+    background-image: url(~assets/images/playbar.png);
+    background-position: -42px -68px;
+    cursor: pointer;
+  }
+  .oper .lists:hover{
+    background-position: -42px -98px;
+  }
+  .oper .lists .num{
+    position: absolute;
+    top: 0;
+    right: 15px;
+    height: 25px;
+    line-height: 27px;
+    color: #666;
+  }
+  
 </style>

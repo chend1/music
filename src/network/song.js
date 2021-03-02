@@ -18,3 +18,18 @@ export function getSongPlay(id){
     }
   })
 }
+
+
+
+
+export class Music{
+  constructor(head,url,time,name,author,id,aut_id){
+    this.head = head;
+    this.url = url;
+    this.time = time;
+    this.name = name;
+    this.author = author;
+    this.id = id;
+    this.aut_id = aut_id
+  }
+}

@@ -31,7 +31,7 @@
             </router-link>
           </div>
           <div class="play">
-            <div class="playItem"></div>
+            <div class="playItem" @click="playItemClick(item.id)"></div>
             <div class="add"></div>
             <div class="col"></div>
           </div>
@@ -68,6 +68,9 @@
       },
       mouseout(){
         this.isActive = -1
+      },
+      playItemClick(id){
+        this.$store.dispatch('addPlayList',id)
       }
     }
   }
