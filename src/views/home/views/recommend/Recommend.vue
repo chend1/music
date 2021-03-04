@@ -96,7 +96,6 @@
       // 主播
       getAnchor(5).then( res => {
         this.anchorData = res.data.data.list
-        console.log(this.anchorData);
       })
     },
     computed: {

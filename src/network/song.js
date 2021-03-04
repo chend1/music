@@ -23,12 +23,12 @@ export function getSongPlay(id){
 
 
 export class Music{
-  constructor(head,url,time,name,author,id,aut_id){
-    this.head = head;
-    this.url = url;
+  constructor(pic,src,time,title,artist,id,aut_id){
+    this.pic = pic;
+    this.src = src;
     this.time = time;
-    this.name = name;
-    this.author = author;
+    this.title = title;
+    this.artist = artist;
     this.id = id;
     this.aut_id = aut_id
   }

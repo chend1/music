@@ -20,4 +20,9 @@ export default {
 
 <style scoped>
   @import url('assets/css/base.css');
+  .wrap {
+    width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
 </style>

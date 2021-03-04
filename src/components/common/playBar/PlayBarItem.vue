@@ -9,35 +9,38 @@
       <div class="center">
         <div class="bar">
           <div class="head">
-            <img :src="$store.state.musicMsg.head" alt="" v-if="imgShow">
+            <img :src="$store.state.musicMsg.pic" alt="" v-if="imgShow">
             <router-link :to="{ path : '/song/'+ $store.state.musicMsg.id }"></router-link>
           </div>
           <div class="play">
             <div class="title">
               <div class="name">
                 <router-link :to="{ path : '/song/'+ $store.state.musicMsg.id }">
-                  {{$store.state.musicMsg.name}}
+                  {{$store.state.musicMsg.title}}
                 </router-link>
               </div>
               <div class="author">
                 <router-link :to="{ path : '/single/'+ $store.state.musicMsg.aut_id }">
-                  {{$store.state.musicMsg.author}}
+                  {{$store.state.musicMsg.artist}}
                 </router-link>
               </div>
             </div>
-            <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp">
+            <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp" ref="audioWrap" @mouseout="slipOut">
               <div class="bg" :style="{ width: bgWidth+'%'}">
                 <div class="slip" @mousedown="slipDown" ref="slip"></div>
-                <audio :src="$store.state.musicMsg.url" 
+                <audio :src="$store.state.musicMsg.src" 
                        :autoplay="$store.state.isPlay"
+                       @canplay="getDuration"
+                       @timeupdate="timeUpDate"
                        ref="audio"></audio>
               </div>
             </div>
           </div>
         </div>
         <div class="time">
-          <span>00:00</span>
-          {{$store.state.musicMsg.time}}
+          <span>{{startTime | getTime}}</span>
+          /{{ musicLength | getTime}}
+          <!-- $store.state.musicMsg.time -->
         </div>
       </div>
       <div class="right">
@@ -71,10 +74,18 @@
         // 鼠标按下的坐标
         pageX: 0,
         moveX: 0,
-        offsetX: 0,
+        // 滑块停留的时间段
+        overTime: 0,
+        // 滑动的距离
         distance: 0,
+        // 可滑动的距离
+        slidWidth: 0,
         isDown: false,
-        bgWidth: 0
+        bgWidth: 0,
+        // 音乐播放的当前时间
+        startTime: 0,
+        // 音乐时间长
+        musicLength: 0
       }
     },
     computed: {
@@ -84,50 +95,69 @@
         } else {
           return false
         }
-      }
+      },
     },
     methods: {
       slipDown(e){
         this.pageX = e.clientX;
         this.isDown = true;
-        this.offsetX = this.$refs.slip.offsetLeft
-        console.log(this.offsetX);
+        this.slidWidth = this.$refs.audioWrap.clientWidth
+        this.overTime = this.$refs.audio.currentTime
       },
       slipMove(e){
         if(this.isDown){
           this.moveX = e.clientX;
           if(this.moveX >= this.pageX ){
-            this.distance = this.moveX-this.pageX + this.offsetX + 10;
-            this.bgWidth = Math.round((this.distance/439) * 100)
-            console.log(this.bgWidth);
+            this.distance = this.moveX-this.pageX;
+            // this.bgWidth = parseInt(this.overTime - this.distance/this.slidWidth * this.musicLength)/this.musicLength * 100
+            this.$refs.audio.currentTime = this.distance/this.slidWidth * this.musicLength + this.overTime
           }
           if(this.moveX < this.pageX ){
-            this.distance = this.pageX - this.moveX + this.offsetX + 10;
-            this.bgWidth = Math.round((this.distance/439) * 100)
-            console.log(this.bgWidth);
+            this.distance = this.pageX - this.moveX;
+            // this.bgWidth = parseInt(this.overTime - this.distance/this.slidWidth * this.musicLength)/this.musicLength * 100
+            this.$refs.audio.currentTime = this.overTime - this.distance/this.slidWidth * this.musicLength 
           }
         }
       },
+      slipOut(){
+        this.isDown = false;
+      },
       slipUp(){
         this.isDown = false;
-        console.log(1111);
       },
+      // 暂停播放点击事件
       stopClick(){
-        this.$refs.audio.paused
         this.$store.commit('stopClick');
         if(this.$store.state.isPlay){
           this.$refs.audio.play()
         } else {
           this.$refs.audio.pause()
         }
+      },
+      getDuration(){
+        this.musicLength = parseInt(this.$refs.audio.duration)
+      },
+      // 音乐播放时间触发
+      timeUpDate(e){
+        this.startTime = parseInt(e.target.currentTime);
+        // if(!this.isDown){
+          this.bgWidth = this.startTime/this.musicLength * 100
+        // }
       }
     },
     filters: {
       getTime(time){
-        let netTime = new Date(time)
-        console.log(netTime);
+        let m = parseInt(time/60);
+        let s = time%60;
+        if(m<10){
+          m = '0'+ m
+        }
+        if(s<10){
+          s = '0'+ s
+        }
+        return m + ':' + s
       }
-    }
+    },
   }
 </script>
 
@@ -273,6 +303,7 @@
     right: -10px;
     background-image: url(~assets/images/iconall.png);
     background-position: 0 -251px;
+    cursor: pointer;
   }
   .right{
     width: 225px;

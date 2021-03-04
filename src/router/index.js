@@ -82,7 +82,7 @@ const routes = [
     component: Download
   },
   {
-    path: '/song/:iid',
+    path: '/single/:iid',
     name: 'Single',
     component: Single
   }

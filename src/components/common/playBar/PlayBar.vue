@@ -22,8 +22,8 @@
     },
     data(){
       return {
-        isShow: false,
-        isClick: false
+        isShow: true,
+        isClick: true
       }
     },
     methods: {
