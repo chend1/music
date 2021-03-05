@@ -109,7 +109,7 @@
     color: #999;
   }
   .wrap {
-    width: 1000px;
+    width: 1100px;
     margin: 0 auto;
     overflow: hidden;
   }

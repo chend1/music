@@ -4,7 +4,7 @@
       <SongItem v-for="(item,index) in rcoSong" :key="index" class="songItem">
         <div class="itemList">
           <div class="img">
-            <router-link :to="{ path: '/single/'+item.id}">
+            <router-link :to="{ path: '/home/playlist/'+item.id}">
               <img :src="item.picUrl" alt="">
               <span></span>
             </router-link>
@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="name">
-            <router-link :to="{ path: '/single/'+item.id}">
+            <router-link :to="{ path: '/home/playlist/'+item.id}">
               <p>{{item.name}}</p>
             </router-link>
           </div>

@@ -6,7 +6,7 @@ const Friend = () => import('../views/friend/Friend.vue')
 const Shop = () => import('../views/shop/Shop.vue')
 const Musician = () => import('../views/musician/Musician.vue')
 const Download = () => import('../views/download/Download.vue')
-const Single = () => import('../views/single/Single.vue')
+
 
 Vue.use(VueRouter)
 
@@ -35,9 +35,14 @@ const routes = [
         component: () => import('../views/home/views/ranking/Ranking.vue')
       },
       {
-        path: '/home/song',
-        name: 'Song',
-        component: () => import('../views/home/views/song/Song.vue')
+        path: '/home/playlist',
+        name: 'PlayList',
+        component: () => import('../views/home/views/playlist/PlayList.vue')
+      },
+      {
+        path: '/home/playlist/:listid',
+        name: 'PlayList',
+        component: () => import('../views/home/views/playlist/listitem/ListItem.vue'),
       },
       {
         path: '/home/radio',
@@ -53,6 +58,11 @@ const routes = [
         path: '/home/new',
         name: 'New',
         component: () => import('../views/home/views/new/New.vue')
+      },
+      {
+        path: '/home/single/:iid',
+        name: 'Single',
+        component: () => import('../views/home/views/single/Single.vue')
       }
     ]
   },
@@ -80,11 +90,6 @@ const routes = [
     path: '/download',
     name: 'Download',
     component: Download
-  },
-  {
-    path: '/single/:iid',
-    name: 'Single',
-    component: Single
   }
 ]
 

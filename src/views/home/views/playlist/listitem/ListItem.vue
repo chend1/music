@@ -1,5 +1,5 @@
 <template>
-  <div class="single wrap">
+  <div class="listItem wrap">
     <div class="left">
       <div class="top">
         <div class="pic"></div>
@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    name: 'Single',
+    name: 'ListItem',
 
   }
 </script>

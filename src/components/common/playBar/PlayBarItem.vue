@@ -25,7 +25,7 @@
                 </router-link>
               </div>
             </div>
-            <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp" ref="audioWrap" @mouseout="slipOut">
+            <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp" ref="audioWrap">
               <div class="bg" :style="{ width: bgWidth+'%'}">
                 <div class="slip" @mousedown="slipDown" ref="slip"></div>
                 <audio :src="$store.state.musicMsg.src" 
@@ -119,19 +119,18 @@
           }
         }
       },
-      slipOut(){
-        this.isDown = false;
-      },
       slipUp(){
         this.isDown = false;
       },
       // 暂停播放点击事件
       stopClick(){
-        this.$store.commit('stopClick');
-        if(this.$store.state.isPlay){
-          this.$refs.audio.play()
-        } else {
-          this.$refs.audio.pause()
+        if(this.$store.state.playList.length > 0){
+          this.$store.commit('stopClick');
+          if(this.$store.state.isPlay){
+            this.$refs.audio.play()
+          } else {
+            this.$refs.audio.pause()
+          }
         }
       },
       getDuration(){
@@ -157,7 +156,7 @@
         }
         return m + ':' + s
       }
-    },
+    }
   }
 </script>
 

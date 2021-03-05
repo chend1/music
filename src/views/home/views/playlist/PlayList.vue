@@ -1,12 +1,13 @@
 <template>
-  <div class="">
-
+  <div class="playlist wrap">
+    
   </div>
 </template>
 
 <script>
   export default {
-    name: ''
+    name: 'PlayList',
+
   }
 </script>
 

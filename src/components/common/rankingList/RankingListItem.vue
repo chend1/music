@@ -26,7 +26,7 @@
             {{index+1}}
           </div>
           <div class="name">
-            <router-link :to=" { path: '/single/'+ item.id} ">
+            <router-link :to=" { path: '/home/single/'+ item.id} ">
               {{item.name}}
             </router-link>
           </div>

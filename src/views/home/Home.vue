@@ -16,5 +16,9 @@
 </script>
 
 <style scoped>
-
+  .wrap{
+    width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
 </style>

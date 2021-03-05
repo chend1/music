@@ -12,7 +12,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/home/song">
+        <router-link to="/home/playlist">
           <span>歌单</span>
         </router-link>
       </li>
