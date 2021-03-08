@@ -101,7 +101,7 @@
     overflow: hidden;
   }
   .singleTop{
-    padding: 45px 30px 40px 40px;
+    
   }
   .pic{
     width: 198px;

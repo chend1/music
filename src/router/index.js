@@ -32,7 +32,14 @@ const routes = [
       {
         path: '/home/ranking',
         name: 'Ranking',
-        component: () => import('../views/home/views/ranking/Ranking.vue')
+        component: () => import('../views/home/views/ranking/Ranking.vue'),
+        children: [
+          {
+            path: '/home/ranking/:topid',
+            name: 'RankingItem',
+            component: () => import('../views/home/views/ranking/childCpn/RankingItem.vue')
+          }
+        ]
       },
       {
         path: '/home/playlist',

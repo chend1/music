@@ -3,6 +3,11 @@
     <div class="left">
       <!-- top -->
       <SingleTop :musicMessage="musicMsg" :lyric="lyric"></SingleTop>
+      <SingleTitle></SingleTitle>
+      <!-- 用户评论 -->
+      <SingleComment></SingleComment>
+      <!-- 评论展示 -->
+      <SingleDiscuss :discuss="comments"></SingleDiscuss>
     </div>
     <div class="right"></div>
   </div>
@@ -10,17 +15,25 @@
 
 <script>
   import SingleTop from './childCpn/SingleTop.vue'
-  import {getSongData,getLyric,Song} from 'network/song'
+  import SingleTitle from './childCpn/SingleTitle.vue'
+  import SingleComment from './childCpn/SingleComment.vue'
+  import SingleDiscuss from './childCpn/SingleDiscuss.vue'
+  import {getSongData,getLyric,Song,getComments} from 'network/song'
   export default {
     name: 'Single',
     components: {
-      SingleTop
+      SingleTop,
+      SingleTitle,
+      SingleComment,
+      SingleDiscuss
     },
     data(){
       return {
         id: this.$route.params.iid,
         musicMsg: {},
-        lyric: ''
+        lyric: '',
+        // 评论数据
+        comments: []
       }
     },
     mounted(){
@@ -43,6 +56,10 @@
         let reg1 = /\n/g
         this.lyric = this.lyric.replace(reg, '')
         this.lyric = this.lyric.replace(reg1, '<br>')
+      }),
+      getComments(this.id).then( res => {
+        this.comments = res.data.comments;
+        console.log(this.comments);
       })
     }
   }
@@ -58,6 +75,7 @@
   border-left: 1px solid #e1e1e1;
   border-right: 1px solid #e1e1e1;
   box-sizing: border-box;
+  padding: 45px 30px 40px 40px;
 }
 .right{
   float: left;
