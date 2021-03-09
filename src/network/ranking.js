@@ -5,3 +5,25 @@ export function getRanking(){
     url: '/toplist/detail',
   })
 }
+
+// 请求歌单详情
+export function getRankDetail(id){
+  return request({
+    url: '/playlist/detail',
+    params: {
+      id
+    }
+  })
+}
+
+// 歌单对象
+export class PlayList{
+  constructor(id,head,name,time,palyList,playCount){
+    this.id = id;
+    this.head = head;
+    this.name = name;
+    this.time = time;
+    this.palyList = palyList;
+    this.playCount = playCount
+  }
+}

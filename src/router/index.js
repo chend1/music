@@ -31,6 +31,7 @@ const routes = [
       },
       {
         path: '/home/ranking',
+        redirect: '/home/ranking/19723756',
         name: 'Ranking',
         component: () => import('../views/home/views/ranking/Ranking.vue'),
         children: [

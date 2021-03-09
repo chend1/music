@@ -4,7 +4,7 @@
       <RankingAside :featureList="featureList" :mediaList="mediaList"></RankingAside>
     </div>
     <div class="content">
-      <router-view></router-view>
+      <router-view :key="key"></router-view>
     </div>
   </div>
 </template>
@@ -29,9 +29,12 @@
       getRanking().then( res => {
         this.featureList = res.data.list.slice(0,4);
         this.mediaList = res.data.list.slice(4,);
-        console.log(this.featureList);
-        console.log(this.mediaList);
       })
+    },
+    computed: {
+      key() {
+        return this.$route.name !== undefined ? this.$route.name + +new Date(): this.$route + +new Date()
+      }
     }
   }
 </script>
@@ -41,13 +44,17 @@
     width: 980px;
     margin: 0 auto;
     overflow: hidden;
+    border: 1px solid #d3d3d3;
+    box-sizing: border-box;
   }
   .aside{
     width: 240px;
     float: left;
+    border-right: 1px solid #d3d3d3;
+    box-sizing: border-box;
   }
   .content{
-    width: 740px;
+    width: 738px;
     float: left;
   }
 </style>

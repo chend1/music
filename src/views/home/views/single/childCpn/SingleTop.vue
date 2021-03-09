@@ -204,6 +204,9 @@
     cursor: pointer;
     overflow: hidden;
   }
+  .toolbar .play{
+    border-radius: 5px;
+  }
   .toolbar .play a{
     display: block;
     width: 66px;
