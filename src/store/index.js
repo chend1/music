@@ -19,14 +19,7 @@ const store = new Vuex.Store({
       state.count++
     },
     addPlayList(state,res){
-      let music = new Music()
-      music.src = res[0].data.data[0].url;
-      music.id = res[0].data.data[0].id;
-      music.title = res[1].data.songs[0].name;
-      music.time = res[1].data.songs[0].dt;
-      music.aut_id = res[1].data.songs[0].ar[0].id;
-      music.artist = res[1].data.songs[0].ar[0].name;
-      music.pic = res[1].data.songs[0].al.picUrl;
+      let music = new Music(res[1].data.songs[0].al.picUrl,res[0].data.data[0].url,res[1].data.songs[0].dt,res[1].data.songs[0].name,res[1].data.songs[0].ar[0].name,res[0].data.data[0].id,res[1].data.songs[0].ar[0].id)
       state.musicMsg = music;
       if(!state.playList.find( item => item.id === music.id)){
         state.playList.unshift(state.musicMsg)

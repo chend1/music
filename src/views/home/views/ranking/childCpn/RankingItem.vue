@@ -22,7 +22,7 @@
       getRankDetail(this.rankId).then( res => {
         let playlist = res.data.playlist;
         this.playList = new PlayList(playlist.id,playlist.coverImgUrl,playlist.name,playlist.updateTime,playlist.tracks,playlist.playCount);
-        console.log(res.data.playlist);
+        console.log(this.playList);
       })
     }
   }

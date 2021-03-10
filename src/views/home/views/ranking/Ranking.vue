@@ -48,13 +48,13 @@
     box-sizing: border-box;
   }
   .aside{
-    width: 240px;
+    width: 239px;
     float: left;
-    border-right: 1px solid #d3d3d3;
     box-sizing: border-box;
   }
   .content{
     width: 738px;
     float: left;
+    border-left: 1px solid #d3d3d3;
   }
 </style>

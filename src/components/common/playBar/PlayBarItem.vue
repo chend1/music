@@ -10,17 +10,17 @@
         <div class="bar">
           <div class="head">
             <img :src="$store.state.musicMsg.pic" alt="" v-if="imgShow">
-            <router-link :to="{ path : '/song/'+ $store.state.musicMsg.id }"></router-link>
+            <router-link :to="{ path : '/home/single/'+ $store.state.musicMsg.id }"></router-link>
           </div>
           <div class="play">
             <div class="title">
               <div class="name">
-                <router-link :to="{ path : '/song/'+ $store.state.musicMsg.id }">
+                <router-link :to="{ path : '/home/single/'+ $store.state.musicMsg.id }">
                   {{$store.state.musicMsg.title}}
                 </router-link>
               </div>
               <div class="author">
-                <router-link :to="{ path : '/single/'+ $store.state.musicMsg.aut_id }">
+                <router-link :to="{ path : '/home/singer/'+ $store.state.musicMsg.aut_id }">
                   {{$store.state.musicMsg.artist}}
                 </router-link>
               </div>

@@ -39,7 +39,7 @@
         </div>
         <div class="toolbar">
           <div class="play">
-            <a title="播放">
+            <a title="播放" @click="playClick(musicMessage.id)">
               <span></span>
               <p>播放</p>
             </a>
@@ -91,6 +91,9 @@
     methods: {
       showClick(){
         this.isOpen = !this.isOpen
+      },
+      playClick(id){
+        this.$store.dispatch('addPlayList',id)
       }
     }
   }

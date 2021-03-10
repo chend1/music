@@ -52,13 +52,16 @@
         <div class="list-singer">歌手</div>
       </div>
       <ul>
-        <li></li>
+        <li v-for="(item,index) in playlist.palyList" :key="index">
+          <RankingDetailItem :singerListItem="item" :idx="index"></RankingDetailItem>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+  import RankingDetailItem from './RankingDetailItem.vue'
   export default {
     name: 'RankingDetail',
     data(){
@@ -73,6 +76,9 @@
           return {}
         }
       }
+    },
+    components: {
+      RankingDetailItem
     },
     filters: {
       changeTime(time){
@@ -283,5 +289,12 @@
   }
   .list-singer{
     width: 26%;
+  }
+  .palyList ul{
+    border: 1px solid #d9d9d9;
+    border-top: none;
+  }
+  .palyList ul li:nth-child(2n-1){
+    background-color: #f7f7f7;
   }
 </style>
