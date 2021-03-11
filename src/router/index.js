@@ -50,7 +50,7 @@ const routes = [
       {
         path: '/home/playlist/:listid',
         name: 'PlayList',
-        component: () => import('../views/home/views/playlist/listitem/ListItem.vue'),
+        component: () => import('../views/home/views/playlist/listdetail/ListDetail.vue'),
       },
       {
         path: '/home/radio',

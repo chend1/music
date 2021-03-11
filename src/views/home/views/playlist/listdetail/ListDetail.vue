@@ -12,14 +12,14 @@
 
 <script>
   export default {
-    name: 'ListItem',
+    name: 'ListDetail',
 
   }
 </script>
 
 <style scoped>
 .single{
-  height: 1000px;
+  height: 1000px; 
 }
 .left{
   width: 710px;
