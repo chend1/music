@@ -51,23 +51,29 @@
         <div class="oper">
           <div class="voice">声音</div>
           <div class="order">顺序</div>
-          <div class="lists">
+          <div class="lists" @click="listShow">
             <div class="num">
               {{$store.state.playList.length}}
             </div>
           </div>
         </div>
       </div>
+      <transition name='slide-fade'>
+        <div class="music-list" v-show="$store.state.listIsShow">
+          <!-- 音乐列表 -->
+          <FootPlayList @closeClick="listShow"></FootPlayList>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
-  import Aplayer from 'vue-aplayer'
+  import FootPlayList from './FootPlayList.vue'
   export default {
     name: 'PlayBarItem',
     components: {
-      Aplayer
+      FootPlayList
     },
     data(){
       return {
@@ -85,7 +91,7 @@
         // 音乐播放的当前时间
         startTime: 0,
         // 音乐时间长
-        musicLength: 0
+        musicLength: 0,
       }
     },
     computed: {
@@ -142,6 +148,11 @@
         // if(!this.isDown){
           this.bgWidth = this.startTime/this.musicLength * 100
         // }
+      },
+      // 音乐播放列表是否显示
+      listShow(){
+        this.$store.commit('listShow')
+        console.log(this.$store.state.playList);
       }
     },
     filters: {
@@ -164,7 +175,7 @@
   .wrap{
     width: 1000px;
     margin: 0 auto;
-    overflow: hidden;
+    position: relative;
   }
   .left,.center{
     float: left;
@@ -372,5 +383,17 @@
     line-height: 27px;
     color: #666;
   }
-  
+  .music-list{
+    width: 100%;
+    transition: all .5s;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 300px;
+    border-radius: 5px 5px 0 0;
+    background-color: rgba(0,0,0,.93);
+    overflow: hidden;
+  }
+  .slide-fade-enter-active {transition: all .2s;}
+  .slide-fade-leave-active {transition: all .2s}
 </style>

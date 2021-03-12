@@ -21,7 +21,9 @@
     data(){
       return {
         playlist: [],
-        total: 0
+        total: 0,
+        limit: 50,
+        offset: 1
       }
     },
     created(){

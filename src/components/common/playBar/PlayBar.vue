@@ -83,7 +83,6 @@
     width: 100%;
     transition: height .5s;
     height: 0;
-    overflow: hidden;
   }
   .active{
     height: 46px;

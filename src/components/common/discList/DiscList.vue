@@ -6,15 +6,15 @@
           <div class="discItem" v-for="(item,index) in discLists1" :key="index">
             <div class="img">
               <img :src="item.blurPicUrl" alt="">
-              <router-link :to=" { path: '/new/'+ item.id} "></router-link>
+              <router-link :to=" { path: '/home/album/'+ item.id} "></router-link>
             </div>
             <div class="name">
-              <router-link :to=" { path: '/new/'+ item.id} ">
+              <router-link :to=" { path: '/home/album/'+ item.id} ">
                 {{item.name}}
               </router-link>
             </div>
             <div class="tit">
-              <router-link :to=" { path: '/singer/'+ item.artist.id} ">
+              <router-link :to=" { path: '/home/singer/'+ item.artist.id} ">
                 {{item.artist.name}}
               </router-link>
             </div>

@@ -1,12 +1,12 @@
 <template>
-  <div class="">
+  <div class="play-list-item">
 
   </div>
 </template>
 
 <script>
-  export default {
-    name: ''
+  export default{
+    name: 'FootPlayListItem'
   }
 </script>
 

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from 'store'
 const Home = () => import('../views/home/Home.vue')
 const My = () => import('../views/my/My.vue')
 const Friend = () => import('../views/friend/Friend.vue')
@@ -68,9 +69,14 @@ const routes = [
         component: () => import('../views/home/views/singer/SingerItem.vue')
       },
       {
-        path: '/home/new',
-        name: 'New',
-        component: () => import('../views/home/views/new/New.vue')
+        path: '/home/album',
+        name: 'Album',
+        component: () => import('../views/home/views/album/NewAlbum.vue')
+      },
+      {
+        path: '/home/album/:id',
+        name: 'AlbumId',
+        component: () => import('../views/home/views/album/NewAlbumItem.vue')
       },
       {
         path: '/home/single/:iid',
@@ -112,5 +118,14 @@ const router = new VueRouter({
   routes,
   linkActiveClass: "active"
 })
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  if(to == from){
+    store.commit('closeList')
+  }
+  store.commit('closeList')
+  next()
+})
+
 
 export default router

@@ -27,7 +27,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/home/new">
+        <router-link to="/home/album">
           <span>新碟上架</span>
         </router-link>
       </li>

@@ -12,7 +12,8 @@ const store = new Vuex.Store({
     // 播放的音乐信息
     musicMsg: {},
     // 是否播放，
-    isPlay: false
+    isPlay: false,
+    listIsShow: false
   },
   mutations: {
     increment (state) {
@@ -29,6 +30,12 @@ const store = new Vuex.Store({
     },
     stopClick(state){
       state.isPlay = !state.isPlay
+    },
+    listShow(state){
+      state.listIsShow = !state.listIsShow
+    },
+    closeList(state){
+      state.listIsShow = false
     }
   },
   actions:{
