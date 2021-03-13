@@ -20,7 +20,7 @@
             <span>
               <i></i>
               清除
-            </span>
+            </span> 
           </div>
         </div>
       </div>
@@ -33,6 +33,13 @@
           去首页 <router-link to="/home/recommend">发现音乐</router-link>
           ，或在<router-link to="/my">我的音乐</router-link>收听自己收藏的歌单。
         </p>
+      </div>
+      <div class="cnt-list" v-else>
+        <ul>
+          <li v-for="(item,index) in $store.state.playList" :key="index">
+            <FootPlayListItem :item="item"></FootPlayListItem>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="foot-right">
@@ -47,8 +54,12 @@
 </template>
 
 <script>
+  import FootPlayListItem from './FootPlayListItem.vue'
   export default {
     name: 'FootPlayList',
+    components: {
+      FootPlayListItem
+    },
     methods: {
       closeClick(){
         console.log(111);
@@ -154,5 +165,22 @@
   .no-cnt a{
     color: #aaa;
     text-decoration: underline;
+  }
+  .cnt-list{
+    height: 258px;
+    overflow-y: scroll;
+  }
+  .cnt-list::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+    background-color: #100f0e;
+  }
+  .cnt-list::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background-color: #1f1d1d;
+    border: 1px solid #515050;
+  }
+  .cnt-list::-webkit-scrollbar-track：{
+    background-color: #100f0e;
   }
 </style>

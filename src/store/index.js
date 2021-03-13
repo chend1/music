@@ -13,7 +13,9 @@ const store = new Vuex.Store({
     musicMsg: {},
     // 是否播放，
     isPlay: false,
-    listIsShow: false
+    listIsShow: false,
+    // 是否登录
+    token: false
   },
   mutations: {
     increment (state) {

@@ -77,7 +77,7 @@
   }
   .bg{
     height: 7px;
-    width: 100%;
+    width: 100%; 
   }
   .cnt{
     width: 100%;

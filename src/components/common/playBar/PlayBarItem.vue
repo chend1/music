@@ -383,7 +383,7 @@
     line-height: 27px;
     color: #666;
   }
-  .music-list{
+  .music-list{ 
     width: 100%;
     transition: all .5s;
     position: absolute;
@@ -391,7 +391,7 @@
     bottom: 0;
     height: 300px;
     border-radius: 5px 5px 0 0;
-    background-color: rgba(0,0,0,.93);
+    background-color: #232123;
     overflow: hidden;
   }
   .slide-fade-enter-active {transition: all .2s;}
