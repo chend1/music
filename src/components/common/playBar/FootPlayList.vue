@@ -60,12 +60,22 @@
     components: {
       FootPlayListItem
     },
+    data(){
+      return {
+        localList: []
+      }
+    },
     methods: {
       closeClick(){
         console.log(111);
         this.$emit('closeClick') 
       }
-    }
+    },
+    // created(){
+    //   window.addEventListener('setItem', ()=> {
+    //     this.localList = JSON.parse(sessionStorage.getItem('songPlayList'));
+    //   })
+    // }
   }
 </script>
 

@@ -32,6 +32,7 @@
                        :autoplay="$store.state.isPlay"
                        @canplay="getDuration"
                        @timeupdate="timeUpDate"
+                       @ended="playEnd"
                        ref="audio"></audio>
               </div>
             </div>
@@ -49,8 +50,16 @@
           <div class="share">分享</div>
         </div>
         <div class="oper">
-          <div class="voice">声音</div>
-          <div class="order">顺序</div>
+          <div class="voice" @click.self="changeVoice">
+            声音
+            <div class="change-voice" v-show="voiceShow">
+              <div class="slide-wrap" @mousemove="voiceMove">
+                <div class="slide" :style="{height: voiceH + '%'}"></div>
+                <div class="slip" @mousedown="voiceDown" @mouseup="voiceUp" ref="voiceSlip" :style="{top: slipTop + 'px'}"></div>
+              </div>
+            </div>
+          </div>
+          <div class="order" :class="playMode[modeIdx].style" :title="playMode[modeIdx].mode" @click="orderClick">{{playMode[modeIdx].mode}}</div>
           <div class="lists" @click="listShow">
             <div class="num">
               {{$store.state.playList.length}}
@@ -92,6 +101,34 @@
         startTime: 0,
         // 音乐时间长
         musicLength: 0,
+        // 音量按钮是否显示
+        voiceShow: false,
+        voiceMoveType: false,
+        voiceH: 100,
+        // 音乐按钮初始位置
+        offset: 0,
+        voiceY: 0,
+        voiceD: 0,
+        slipTop: -7,
+        // 播放方式
+        playMode: [
+          {
+            id: 0,
+            mode: "循环",
+            style: 'loop'
+          },
+          {
+            id: 1,
+            mode: "随机",
+            style: 'random'
+          },
+          {
+            id: 2,
+            mode: "单曲循环",
+            style: 'single'
+          }
+        ],
+        modeIdx: 1
       }
     },
     computed: {
@@ -153,6 +190,54 @@
       listShow(){
         this.$store.commit('listShow')
         console.log(this.$store.state.playList);
+      },
+      // 声音点击事件
+      changeVoice(){
+        this.voiceShow = !this.voiceShow;
+        console.log(this.$refs.audio.volume);
+      },
+      voiceDown(e){
+        this.voiceMoveType = true;
+        // 滑块初始位置
+        this.voiceY = e.pageY
+        this.offset = this.$refs.voiceSlip.offsetTop
+      },
+      voiceUp(){
+        this.voiceMoveType = false
+      },
+      voiceMove(e){
+        if(this.voiceMoveType){
+          if( e.pageY > this.voiceY && (e.pageY - this.voiceY + this.offset) <= 83){
+            this.slipTop = e.pageY - this.voiceY + this.offset
+          }
+          if(e.pageY < this.voiceY && (this.offset - this.voiceY + e.pageY) >= 0){
+            this.slipTop = this.offset - this.voiceY + e.pageY 
+          }
+          if(e.pageY > this.voiceY){
+            this.voiceD = e.pageY - this.voiceY;
+            this.voiceD = (100 - (this.voiceD+ this.offset)/90 * 100).toFixed(2);
+          }
+          if(e.pageY < this.voiceY){
+            this.voiceD = this.voiceY - e.pageY;
+            this.voiceD = (100 - (this.offset-this.voiceD)/90 * 100).toFixed(2)
+          }
+          this.voiceH = this.voiceD
+          // console.log(this.voiceD);
+          // console.log( this.offset);
+        }
+      },
+      // 播放结束事件
+      playEnd(){
+        console.log(222);
+      },
+      // 歌曲播放顺序单击事件
+      orderClick(){
+        if(this.modeIdx >= 2){
+          this.modeIdx = 0
+        }
+        if(this.modeIdx < 2){
+          this.modeIdx++
+        }
       }
     },
     filters: {
@@ -319,7 +404,6 @@
     width: 225px;
     padding-right: 25px;
     box-sizing: border-box;
-    overflow: hidden;
   }
   .right .list,.right .oper{
     float: left;
@@ -363,6 +447,18 @@
   .oper .order:hover{
     background-position: -96px -247px;
   }
+  .oper .order.loop {
+    background-position: -3px -344px;
+  }
+  .oper .order.loop:hover{
+    background-position: -28px -344px;
+  }
+  .oper .order.single {
+    background-position: -68px -342px;
+  }
+  .oper .order.single:hover{
+    background-position: -95px -342px;
+  }
   .oper .lists{
     position: relative;
     width: 59px;
@@ -382,6 +478,46 @@
     height: 25px;
     line-height: 27px;
     color: #666;
+  }
+  .voice{
+    position: relative;
+  }
+  .change-voice{
+    position: absolute;
+    left: -7px;
+    bottom: 37px;
+    width: 32px;
+    height: 115px;
+    background-color: #292929;
+  }
+  .change-voice .slide-wrap{
+    width: 4px;
+    height: 90px;
+    margin: 15px auto;
+    background-color:#191919;
+    border-radius: 2px;
+    position: relative;
+  }
+  .slide-wrap .slide{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    background-color: red;
+    border-radius: 2px;
+  }
+  .change-voice .slide-wrap .slip{
+    width: 18px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: -9px;
+    right: -7px;
+    background-image: url(~assets/images/iconall.png);
+    background-position: -40px -280px;
+    cursor: pointer;
   }
   .music-list{ 
     width: 100%;

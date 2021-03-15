@@ -120,9 +120,6 @@ const router = new VueRouter({
 })
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  if(to == from){
-    store.commit('closeList')
-  }
   store.commit('closeList')
   next()
 })

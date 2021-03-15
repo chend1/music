@@ -15,7 +15,9 @@ const store = new Vuex.Store({
     isPlay: false,
     listIsShow: false,
     // 是否登录
-    token: false
+    token: false,
+    // 存储localStorage
+    // localList: []
   },
   mutations: {
     increment (state) {
@@ -25,7 +27,10 @@ const store = new Vuex.Store({
       let music = new Music(res[1].data.songs[0].al.picUrl,res[0].data.data[0].url,res[1].data.songs[0].dt,res[1].data.songs[0].name,res[1].data.songs[0].ar[0].name,res[0].data.data[0].id,res[1].data.songs[0].ar[0].id)
       state.musicMsg = music;
       if(!state.playList.find( item => item.id === music.id)){
-        state.playList.unshift(state.musicMsg)
+        state.playList.unshift(state.musicMsg);
+        // let loc = window.localStorage;
+        // localStorage.setItem("songPlayList", JSON.stringify(state.playList));
+        // Vue.$resetSetItem('songPlayList', JSON.stringify(state.playList));
       }
       state.isPlay = true;
       // console.log(music);
