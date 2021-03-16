@@ -2,9 +2,9 @@
   <div class="playBarItem">
     <div class="wrap">
       <div class="left">
-        <div class="back"></div>
+        <div class="back" @click="backClick"></div>
         <div class="stop" :class=" { start: $store.state.isPlay } " @click="stopClick"></div>
-        <div class="for"></div>
+        <div class="for" @click="forClick"></div>
       </div>
       <div class="center">
         <div class="bar">
@@ -73,6 +73,9 @@
           <FootPlayList @closeClick="listShow"></FootPlayList>
         </div>
       </transition>
+      <div class="add-point" v-if="this.$store.state.addPoint">
+        已添加到播放列表
+      </div>
     </div>
   </div>
 </template>
@@ -229,14 +232,55 @@
       // 播放结束事件
       playEnd(){
         console.log(222);
+        // 循环播放
+        let len = this.$store.state.playList.length
+        if(this.modeIdx === 0){
+          if(this.$store.state.count < len-1){
+            this.$store.commit('playEnd') 
+          } else {
+            this.$store.commit('playEnd',0)
+          }
+        }
+        // 随机播放
+        if(this.modeIdx === 1){
+          if(len > 1){
+            let old = this.$store.state.count
+            let random = Math.floor(Math.random()*len);
+            this.$store.commit('playEnd',random)
+            if(random === old){
+              this.$refs.audio.play()
+            }
+          } else {
+            this.$store.commit('playStop')
+          }
+        }
+        // 单曲循环播放
+        if(this.modeIdx === 2){
+          this.$refs.audio.play()
+        }
+        this.modeIdx
       },
       // 歌曲播放顺序单击事件
       orderClick(){
         if(this.modeIdx >= 2){
           this.modeIdx = 0
-        }
-        if(this.modeIdx < 2){
+        } else {
           this.modeIdx++
+        }
+      },
+      // 上一曲，下一曲单击事件
+      backClick(){
+        if(this.$store.state.count > 0){
+          this.$store.commit('backClick') 
+        } else {
+          this.$store.commit('playEnd',this.$store.state.playList.length-1)
+        }
+      },
+      forClick(){
+        if(this.$store.state.count < this.$store.state.playList.length-1){
+          this.$store.commit('playEnd') 
+        } else {
+          this.$store.commit('playEnd',0)
         }
       }
     },
@@ -448,10 +492,10 @@
     background-position: -96px -247px;
   }
   .oper .order.loop {
-    background-position: -3px -344px;
+    background-position: -5px -342px;
   }
   .oper .order.loop:hover{
-    background-position: -28px -344px;
+    background-position: -35px -342px;
   }
   .oper .order.single {
     background-position: -68px -342px;
@@ -532,4 +576,17 @@
   }
   .slide-fade-enter-active {transition: all .2s;}
   .slide-fade-leave-active {transition: all .2s}
+  .add-point{
+    position: absolute;
+    top: -51px;
+    right: 0;
+    clear: both;
+    width: 152px;
+    height: 49px;
+    background-position: 0 -287px;
+    text-align: center;
+    color: #fff;
+    line-height: 37px;
+    background-image: url(~assets/images/playbar.png);
+  }
 </style>

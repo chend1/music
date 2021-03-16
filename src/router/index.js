@@ -120,6 +120,11 @@ const router = new VueRouter({
 })
 // 路由守卫
 router.beforeEach((to, from, next) => {
+  let head = document.getElementsByTagName('head');
+  let meta = document.createElement('meta');
+  meta.content = "no-referrer";
+  meta.name = "referrer";
+  head[0].appendChild(meta)
   store.commit('closeList')
   next()
 })

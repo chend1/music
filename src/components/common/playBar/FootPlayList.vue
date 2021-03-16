@@ -71,17 +71,16 @@
         this.$emit('closeClick') 
       }
     },
-    // created(){
-    //   window.addEventListener('setItem', ()=> {
-    //     this.localList = JSON.parse(sessionStorage.getItem('songPlayList'));
-    //   })
-    // }
+    created(){
+      this.$store.commit('loadPlayList')
+    }
   }
 </script>
 
 <style scoped>
   .foot-play-list{
     overflow: hidden;
+    background-color: #161616;
   }
   .foot-left{
     width: 560px;

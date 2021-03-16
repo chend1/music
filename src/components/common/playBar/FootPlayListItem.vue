@@ -1,6 +1,8 @@
 <template>
-  <div class="play-list-item">
-    <div class="set"></div>
+  <div class="play-list-item" :class="{ active : $store.getters.contrast === item.id}" @click="playListClick(item.id)">
+    <div class="set">
+      <div :class="{ point : $store.getters.contrast === item.id}"></div>
+    </div>
     <div class="name">
       {{item.title}}
     </div>
@@ -26,6 +28,11 @@
           return {}
         }
       }
+    },
+    methods: {
+      playListClick(id){
+        this.$store.commit('playListClick',id)
+      }
     }
   }
 </script>
@@ -42,6 +49,9 @@
   .play-list-item:hover{
     background-color: rgba(0,0,0,0.3);
   }
+  .play-list-item.active{
+    background-color: #0f0f0f;
+  }
   .set,.name,.aut,.time,.shore{
     float: left;
   }
@@ -51,6 +61,8 @@
     padding-left: 10px;
   }
   .name{
+    padding-left: 10px;
+    box-sizing: border-box;
     width: 290px;
   }
   .aut{
@@ -62,5 +74,12 @@
   }
   .shore{
     padding-left: 50px;
+  }
+  .point{
+    margin-top: 8px;
+    width: 10px;
+    height: 13px;
+    background-image: url(~assets/images/playlist.png);
+    background-position: -182px 0;
   }
 </style>

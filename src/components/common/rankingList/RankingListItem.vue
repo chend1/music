@@ -12,7 +12,7 @@
           </router-link>
         </div>
         <div class="play-wrap">
-          <div class="play"></div>
+          <div class="play" @click="addPlaySheet(listItem.id)"></div>
           <div class="col"></div>
         </div>
       </div>
@@ -32,7 +32,7 @@
           </div>
           <div class="play">
             <div class="playItem" @click="playItemClick(item.id)"></div>
-            <div class="add"></div>
+            <div class="add" @click="addPlayItem(item.id)"></div>
             <div class="col"></div>
           </div>
         </li>
@@ -71,6 +71,14 @@
       },
       playItemClick(id){
         this.$store.dispatch('addPlayList',id)
+      },
+      addPlayItem(id){
+        console.log(11);
+        this.$store.dispatch('addPlayItem',id)
+      },
+      // 添加整个表单
+      addPlaySheet(id){
+        this.$store.dispatch('addPlaySheet',id)
       }
     }
   }
