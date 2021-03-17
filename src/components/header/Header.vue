@@ -38,12 +38,20 @@
       </div>
     </header>
     <div class="sub-nav"></div>
+    <div class="login-popup">
+      <!-- 登录弹框 -->
+      <Login></Login>
+    </div>
   </div>
 </template>
 
 <script>
+  import Login from './Login.vue'
   export default {
-    name: 'Header'
+    name: 'Header',
+    components: {
+      Login
+    }
   }
 </script>
 
@@ -179,5 +187,17 @@ header{
   width: 100%;
   height: 5px;
   background-color: #c20c0c;
+}
+.login-popup{
+  width: 530px;
+  height: 370px;
+  background-color: #fff;
+  z-index: 9999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 5px;
+  overflow: hidden;
 }
 </style>

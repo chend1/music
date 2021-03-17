@@ -21,7 +21,9 @@ const store = new Vuex.Store({
     // 存储localStorage
     // localList: [],
     // 是否显示添加提示
-    addPoint: false
+    addPoint: false,
+    // 是否登录
+    isToken: false
   },
   mutations: {
     increment (state) {
@@ -106,6 +108,10 @@ const store = new Vuex.Store({
       state.isPlay = true;
       // 存储在本地
       // localStorage.setItem("songPlayList", JSON.stringify(state.playList));
+    },
+    // 登录状态改变
+    isLogin(state){
+      state.isToken = true;
     }
   },
   actions:{
