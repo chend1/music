@@ -4,7 +4,7 @@
       <div class="title">
         登录
       </div>
-      <div class="close">
+      <div class="close" @click="loginClose">
         关闭
       </div>
     </div>
@@ -16,7 +16,7 @@
           <div class="qr">
             <div class="noshow" v-if="isShow">
               <p>二维码已失效</p>
-              <div class="u-btn2">点击刷新</div>
+              <div class="u-btn2" @click="refreshClick">点击刷新</div>
             </div>
             <div class="show">
               <img :src="qrimg" alt="">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import {getLoginKey,getLogin,getQrType} from 'network/login'
+  import {getLoginKey,getLogin,getQrType,logOut,refresh,getUser,User} from 'network/login'
   export default {
     name: 'Login',
     data(){
@@ -49,7 +49,7 @@
         key: '',
         isShow: false,
         timer: null,
-        code: 801,
+        code: 0,
         wait: false
       }
     },
@@ -66,10 +66,26 @@
             this.wait = true;
           }
           if(this.code === 803){
-            this.$store.emmit('isLogin')
+            let cookie = result.data.cookie
+            getUser(cookie).then( res => {
+              console.log(res);
+              let user = new User(res.data.profile.userId,res.data.profile.avatarUrl,res.data.profile.nickname,cookie)
+              this.$store.commit('isLogin',user);
+            })
+            this.$emit('success');
+            clearInterval(this.timer);
           }
           console.log(result);
+          console.log(this.code);
         })
+      },
+      loginClose(){
+        // logOut();
+        this.$emit("loginclose");
+        clearInterval(this.timer);
+      },
+      refreshClick(){
+        refresh()
       }
     },
     created(){
@@ -84,16 +100,17 @@
       }).then( () => {
         this.timer = setInterval(() => {
           this.checkQr()
-        }, 60000);
+        }, 500);
       })
       // 验证二维码是否过期
-    },
+    }
   }
 </script>
 
 <style scoped>
   .login-wrap{
     width: 100%;
+    z-index: 1000;
   }
   .top{
     position: relative;
@@ -109,7 +126,7 @@
   }
   .close{
     position: absolute;
-    z-index: 20;
+    z-index: 999;
     top: 4px;
     right: 4px;
     width: 30px;

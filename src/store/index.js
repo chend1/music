@@ -23,7 +23,9 @@ const store = new Vuex.Store({
     // 是否显示添加提示
     addPoint: false,
     // 是否登录
-    isToken: false
+    isToken: false,
+    cookie: '',
+    user: {}
   },
   mutations: {
     increment (state) {
@@ -110,8 +112,20 @@ const store = new Vuex.Store({
       // localStorage.setItem("songPlayList", JSON.stringify(state.playList));
     },
     // 登录状态改变
-    isLogin(state){
+    isLogin(state,msg){
       state.isToken = true;
+      state.cookie = msg.cookie;
+      state.user = msg;
+      localStorage.setItem("getUser", JSON.stringify(state.user));
+    },
+    // 判断用户是否登录
+    getUser(state){
+      // 获取存储在本地的用户信息
+      if(localStorage.getItem("getUser")){
+        state.user = JSON.parse(localStorage.getItem("getUser"));
+        state.isToken = true;
+        state.cookie = state.user.cookie
+      }
     }
   },
   actions:{

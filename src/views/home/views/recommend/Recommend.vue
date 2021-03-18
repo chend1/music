@@ -15,7 +15,8 @@
       </div>
       <!-- 侧边栏 -->
       <div class="aside">
-        <AsideTop></AsideTop>
+        <AsideTop v-if="!$store.state.isToken"></AsideTop>
+        <AsideUser v-else></AsideUser>
         <SingerList :singerList="settleSinger"></SingerList>
         <Anchor :anchorList="anchorData"></Anchor>
       </div>
@@ -33,6 +34,7 @@
   import RankingList from './childCpn/RankingList'
   // 侧边栏
   import AsideTop from './childCpn/aside/AsideTop'
+  import AsideUser from './childCpn/aside/AsideUser'
   import SingerList from './childCpn/aside/SingerList'
   import Anchor from './childCpn/aside/Anchor'
   //导入请求函数
@@ -48,6 +50,7 @@
       RankingBar,
       RankingList,
       AsideTop,
+      AsideUser,
       SingerList,
       Anchor
     },

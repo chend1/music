@@ -30,17 +30,27 @@
           </div>
           <div class="user">
             <div class="creator">创作者中心</div>
-            <div class="login">
-              <a href="">登录</a>
+            <div class="login" @mouseover="userOver" @mouseout="userOut">
+              <a @click="login" style="cursor: pointer;" v-if="!$store.state.isToken">登录</a>
+              <div class="pic" v-else>
+                <router-link :to="{ path: '/user/'+ $store.state.user.id }">
+                  <img :src="$store.state.user.head" alt="">
+                </router-link> 
+              </div>
+              <div class="userList" v-show="isShowList">
+                <div class="logOut">
+                  退出
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </header>
     <div class="sub-nav"></div>
-    <div class="login-popup">
+    <div class="login-popup" v-if="isLogin">
       <!-- 登录弹框 -->
-      <Login></Login>
+      <Login @loginclose="loginCloseClick" @success="success"></Login>
     </div>
   </div>
 </template>
@@ -51,7 +61,30 @@
     name: 'Header',
     components: {
       Login
-    }
+    },
+    data(){
+      return {
+        isLogin: false,
+        isShowList: true
+      }
+    },
+    methods: {
+      login(){
+        this.isLogin = true
+      },
+      loginCloseClick(){
+        this.isLogin = false
+      },
+      success(){
+        this.isLogin = false
+      },
+      userOver(){
+        this.isShowList = true
+      },
+      userOut(){
+        this.isShowList = false
+      }
+    },
   }
 </script>
 
@@ -66,7 +99,6 @@ header{
 .wrap{
   width: 1100px;
   margin: 0 auto;
-  overflow: hidden;
 }
 .left,.center{
   float: left;
@@ -179,6 +211,7 @@ header{
   padding: 0 10px;
   margin-top: 19px;
   margin-left: 15px;
+  position: relative;
 }
 .login a{
   color: #787878;
@@ -192,12 +225,29 @@ header{
   width: 530px;
   height: 370px;
   background-color: #fff;
-  z-index: 9999;
+  z-index: 999;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
   border-radius: 5px;
   overflow: hidden;
+}
+.login>.pic a{
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.login>.pic a img{
+  width: 100%;
+}
+.login .userList{
+  position: absolute;
+  top: 30px;
+  right: -57px;
+  width: 158px;
+  background-color: red;
 }
 </style>
