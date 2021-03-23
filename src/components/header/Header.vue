@@ -36,12 +36,54 @@
                 <router-link :to="{ path: '/user/'+ $store.state.user.id }">
                   <img :src="$store.state.user.head" alt="">
                 </router-link> 
-              </div>
-              <div class="userList" v-show="isShowList">
-                <div class="logOut">
-                  退出
+                <div class="userList" v-show="isShowList">
+                  <ul>
+                    <li>
+                      <router-link to="/user">
+                        <span></span>
+                        我的主页
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/user">
+                        <span></span>
+                        我的消息
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/user">
+                        <span></span>
+                        我的等级
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/user">
+                        <span></span>
+                        VIP会员
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/user">
+                        <span></span>
+                        个人设置
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/user">
+                        <span></span>
+                        实名认真
+                      </router-link>
+                    </li>
+                    <li @click="logoutClick">
+                      <a>
+                        <span></span>
+                        退出
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
@@ -83,6 +125,10 @@
       },
       userOut(){
         this.isShowList = false
+      },
+      // 退出登录
+      logoutClick(){
+        this.$store.dispatch('logoutClick')
       }
     },
   }
@@ -233,7 +279,7 @@ header{
   border-radius: 5px;
   overflow: hidden;
 }
-.login>.pic a{
+.login>.pic>a{
   display: block;
   width: 30px;
   height: 30px;
@@ -248,6 +294,39 @@ header{
   top: 30px;
   right: -57px;
   width: 158px;
-  background-color: red;
+  background-color: #2b2b2b;
+  border: 1px solid #202020;
+  z-index: 999
+}
+.login .userList ul{
+  width: 100%;
+}
+.login .userList ul li{
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid #232323;
+}
+.login .userList ul li:last-child{
+  border-bottom: none;
+}
+.login .userList ul li:hover{
+  background-color: #353535;
+}
+.login .userList ul li a{
+  display: block;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 24px;
+  color: #ccc;
+}
+.login .userList ul li a span{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(~assets/images/toplist.png);
+  background-position: -20px -142px;
+  vertical-align: top;
+  margin-top: 8px;
+  margin-right: 5px;
 }
 </style>

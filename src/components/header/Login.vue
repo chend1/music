@@ -8,7 +8,7 @@
         关闭
       </div>
     </div>
-    <div class="cnt">
+    <div class="cnt" v-if="!other">
       <div class="on" v-if="!wait">
         <div class="left"></div>
         <div class="right">
@@ -31,8 +31,22 @@
         请在手机上确认登录
       </div>
     </div>
+    <div class="cnt" v-else>
+      <div class="phone">
+        <input type="text" name="phone" id="phone" placeholder="请输入手机号" @input="phoneInput($event)">
+      </div>
+      <div class="pwd">
+        <input type="password" name="pwd" id="pwd" placeholder="请输入密码"  @input="pwdInput($event)">
+      </div>
+      <p v-if="phoneMsg.length>1">
+        {{phoneMsg}}
+      </p>
+      <div class="btn" @click="btnClick">
+        立即登录
+      </div>
+    </div>
     <div class="botton">
-      <div class="other">
+      <div class="other" @click="otherClick">
         选择其他方式登录
       </div>
     </div>
@@ -40,7 +54,7 @@
 </template>
 
 <script>
-  import {getLoginKey,getLogin,getQrType,logOut,refresh,getUser,User} from 'network/login'
+  import {getLoginKey,getLogin,getQrType,logOut,refresh,getUser,User,getLoginP} from 'network/login'
   export default {
     name: 'Login',
     data(){
@@ -49,8 +63,18 @@
         key: '',
         isShow: false,
         timer: null,
+        // 扫码返回值
         code: 0,
-        wait: false
+        // 是否扫码，等待确认
+        wait: false,
+        // 是否选中其他方式登录
+        other: false,
+        // 手机号登录
+        phone: 0,
+        password: 0,
+        // 手机号登录状态返回值
+        phoneCode: 0,
+        phoneMsg: ''
       }
     },
     methods: {
@@ -75,8 +99,6 @@
             this.$emit('success');
             clearInterval(this.timer);
           }
-          console.log(result);
-          console.log(this.code);
         })
       },
       loginClose(){
@@ -86,6 +108,22 @@
       },
       refreshClick(){
         refresh()
+      },
+      // 其他方式登录点击
+      otherClick(){
+        this.other = !this.other
+      },
+      phoneInput(e){
+        this.phone = e.target.value;
+      },
+      pwdInput(e){
+        this.password = e.target.value;
+      },
+      btnClick(){
+        getLoginP(this.phone,this.password).then( res => {
+          this.phoneCode = res.data.code;
+          this.phoneMsg = res.data.message;
+        })
       }
     },
     created(){
@@ -222,6 +260,35 @@
     line-height: 28px;
     text-align: center;
     color: rgba(0,0,0,0.80);
+    cursor: pointer;
+  }
+  .phone,.pwd{
+    width: 220px;
+    height: 32px;
+    line-height: 30px;
+    border: 1px solid #cdcdcd;
+    box-sizing: border-box;
+    margin: 10px auto;
+  }
+  .phone input,.pwd input{
+    display: block;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    box-sizing: border-box;
+  }
+  .btn{
+    width: 220px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: #2979c7;
+    color: white;
+    margin: 20px auto;
+    border-radius: 5px;
     cursor: pointer;
   }
 </style>

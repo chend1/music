@@ -1,68 +1,70 @@
 <template>
   <div class="playBarItem">
-    <div class="wrap">
-      <div class="left">
-        <div class="back" @click="backClick"></div>
-        <div class="stop" :class=" { start: $store.state.isPlay } " @click="stopClick"></div>
-        <div class="for" @click="forClick"></div>
-      </div>
-      <div class="center">
-        <div class="bar">
-          <div class="head">
-            <img :src="$store.state.musicMsg.pic" alt="" v-if="imgShow">
-            <router-link :to="{ path : '/home/single/'+ $store.state.musicMsg.id }"></router-link>
-          </div>
-          <div class="play">
-            <div class="title">
-              <div class="name">
-                <router-link :to="{ path : '/home/single/'+ $store.state.musicMsg.id }">
-                  {{$store.state.musicMsg.title}}
-                </router-link>
-              </div>
-              <div class="author">
-                <router-link :to="{ path : '/home/singer/'+ $store.state.musicMsg.aut_id }">
-                  {{$store.state.musicMsg.artist}}
-                </router-link>
-              </div>
+    <div class="play-wrap">
+      <div class="wrap">
+        <div class="left">
+          <div class="back" @click="backClick"></div>
+          <div class="stop" :class=" { start: $store.state.isPlay } " @click="stopClick"></div>
+          <div class="for" @click="forClick"></div>
+        </div>
+        <div class="center">
+          <div class="bar">
+            <div class="head">
+              <img :src="$store.state.musicMsg.pic" alt="" v-if="imgShow">
+              <router-link :to="{ path : '/home/single/'+ $store.state.musicMsg.id }"></router-link>
             </div>
-            <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp" ref="audioWrap">
-              <div class="bg" :style="{ width: bgWidth+'%'}">
-                <div class="slip" @mousedown="slipDown" ref="slip"></div>
-                <audio :src="$store.state.musicMsg.src" 
-                       :autoplay="$store.state.isPlay"
-                       @canplay="getDuration"
-                       @timeupdate="timeUpDate"
-                       @ended="playEnd"
-                       ref="audio"></audio>
+            <div class="play">
+              <div class="title">
+                <div class="name">
+                  <router-link :to="{ path : '/home/single/'+ $store.state.musicMsg.id }">
+                    {{$store.state.musicMsg.title}}
+                  </router-link>
+                </div>
+                <div class="author">
+                  <router-link :to="{ path : '/home/singer/'+ $store.state.musicMsg.aut_id }">
+                    {{$store.state.musicMsg.artist}}
+                  </router-link>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="time">
-          <span>{{startTime | getTime}}</span>
-          /{{ musicLength | getTime}}
-          <!-- $store.state.musicMsg.time -->
-        </div>
-      </div>
-      <div class="right">
-        <div class="list">
-          <div class="add">添加</div>
-          <div class="share">分享</div>
-        </div>
-        <div class="oper">
-          <div class="voice" @click.self="changeVoice">
-            声音
-            <div class="change-voice" v-show="voiceShow">
-              <div class="slide-wrap" @mousemove="voiceMove">
-                <div class="slide" :style="{height: voiceH + '%'}"></div>
-                <div class="slip" @mousedown="voiceDown" @mouseup="voiceUp" ref="voiceSlip" :style="{top: slipTop + 'px'}"></div>
+              <div class="audio"  @mousemove="slipMove"  @mouseup="slipUp" ref="audioWrap">
+                <div class="bg" :style="{ width: bgWidth+'%'}">
+                  <div class="slip" @mousedown="slipDown" ref="slip"></div>
+                  <audio :src="$store.state.musicMsg.src" 
+                         :autoplay="$store.state.isPlay"
+                         @canplay="getDuration"
+                         @timeupdate="timeUpDate"
+                         @ended="playEnd"
+                         ref="audio"></audio>
+                </div>
               </div>
             </div>
           </div>
-          <div class="order" :class="playMode[modeIdx].style" :title="playMode[modeIdx].mode" @click="orderClick">{{playMode[modeIdx].mode}}</div>
-          <div class="lists" @click="listShow">
-            <div class="num">
-              {{$store.state.playList.length}}
+          <div class="time">
+            <span>{{startTime | getTime}}</span>
+            /{{ musicLength | getTime}}
+            <!-- $store.state.musicMsg.time -->
+          </div>
+        </div>
+        <div class="right">
+          <div class="list">
+            <div class="add">添加</div>
+            <div class="share">分享</div>
+          </div>
+          <div class="oper">
+            <div class="voice" @click.self="changeVoice">
+              声音
+              <div class="change-voice" v-show="voiceShow">
+                <div class="slide-wrap" @mousemove="voiceMove">
+                  <div class="slide" :style="{height: voiceH + '%'}"></div>
+                  <div class="slip" @mousedown="voiceDown" @mouseup="voiceUp" ref="voiceSlip" :style="{top: slipTop + 'px'}"></div>
+                </div>
+              </div>
+            </div>
+            <div class="order" :class="playMode[modeIdx].style" :title="playMode[modeIdx].mode" @click="orderClick">{{playMode[modeIdx].mode}}</div>
+            <div class="lists" @click="listShow">
+              <div class="num">
+                {{$store.state.playList.length}}
+              </div>
             </div>
           </div>
         </div>
@@ -302,6 +304,12 @@
 
 <style scoped>
   .wrap{
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .play-wrap{
     width: 1000px;
     margin: 0 auto;
     position: relative;
@@ -568,10 +576,10 @@
     transition: all .5s;
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 45px;
     height: 300px;
     border-radius: 5px 5px 0 0;
-    background-color: #232123;
+    background-color: #161616;
     overflow: hidden;
   }
   .slide-fade-enter-active {transition: all .2s;}

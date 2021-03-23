@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {getSongData,getSongPlay,Music} from 'network/song'
 import {getRankDetail} from 'network/ranking'
+import {logout} from 'network/login'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -126,6 +127,15 @@ const store = new Vuex.Store({
         state.isToken = true;
         state.cookie = state.user.cookie
       }
+    },
+    // 用户退出登录
+    logoutClick(state,res){
+      if(res.data.code === 200){
+        state.isToken = false;
+        localStorage.removeItem("getUser");
+        state.user = {}
+        state.cookie = '';
+      }
     }
   },
   actions:{
@@ -168,6 +178,11 @@ const store = new Vuex.Store({
           })
         }
         commit('addPlaySheet',value)
+      })
+    },
+    logoutClick({commit}){
+      logout().then( res => {
+        commit('logoutClick',res)
       })
     }
   },

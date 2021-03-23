@@ -45,6 +45,24 @@ export function getUser(cookie){
     }
   })
 }
+// 退出登录
+export function logout(){
+  return request({
+    url: '/logout'
+  })
+}
+
+// 手机号登录
+export function getLoginP(phone,password){
+  return request({
+    url: '/login/cellphone',
+    method: 'post',
+    data: {
+      phone,
+      password
+    }
+  })
+}
 
 export class User{
   constructor(id,head,name,cookie){

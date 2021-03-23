@@ -49,16 +49,21 @@
         </div>
         <div class="close" @click="closeClick"></div>
       </div>
+      <div class="lyric">
+        <Lyric></Lyric>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import FootPlayListItem from './FootPlayListItem.vue'
+  import Lyric from './Lyric.vue'
   export default {
     name: 'FootPlayList',
     components: {
-      FootPlayListItem
+      FootPlayListItem,
+      Lyric
     },
     data(){
       return {
@@ -191,5 +196,13 @@
   }
   .cnt-list::-webkit-scrollbar-track：{
     background-color: #100f0e;
+  }
+  .lyric{
+    height: 258px;
+    overflow: hidden;
+    background-color: #383941;
+    opacity: .6;
+    color: #989898;
+    text-align: center;
   }
 </style>
