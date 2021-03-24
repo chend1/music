@@ -91,7 +91,7 @@
     },
     data(){
       return {
-        // 鼠标按下的坐标
+        // 鼠标按下的坐标 
         pageX: 0,
         moveX: 0,
         // 滑块停留的时间段
@@ -187,9 +187,9 @@
       // 音乐播放时间触发
       timeUpDate(e){
         this.startTime = parseInt(e.target.currentTime);
-        // if(!this.isDown){
-          this.bgWidth = this.startTime/this.musicLength * 100
-        // }
+        this.bgWidth = this.startTime/this.musicLength * 100;
+        // 发射事件总线
+        this.$Eventbus.$emit("lrcTimeUpDate",e.target.currentTime)
       },
       // 音乐播放列表是否显示
       listShow(){

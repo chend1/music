@@ -49,13 +49,13 @@
         </div>
         <div class="close" @click="closeClick"></div>
       </div>
-      <div class="lyric">
+      <div class="lyric-wrap" @scroll="lrcScroll">
         <Lyric></Lyric>
       </div>
     </div>
   </div>
 </template>
-
+ 
 <script>
   import FootPlayListItem from './FootPlayListItem.vue'
   import Lyric from './Lyric.vue'
@@ -74,6 +74,10 @@
       closeClick(){
         console.log(111);
         this.$emit('closeClick') 
+      },
+      // 监听歌词滚动
+      lrcScroll(e){
+        console.log(11);
       }
     },
     created(){
@@ -197,12 +201,12 @@
   .cnt-list::-webkit-scrollbar-track：{
     background-color: #100f0e;
   }
-  .lyric{
+  .lyric-wrap{
     height: 258px;
-    overflow: hidden;
     background-color: #383941;
-    opacity: .6;
     color: #989898;
     text-align: center;
+    overflow-y: auto;
+    margin-right: -17px;
   }
 </style>
