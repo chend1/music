@@ -36,7 +36,6 @@
             })
           })
           this.count = 0;
-          console.log(this.songLyric);
           this.songLyric = newArr 
           console.log(this.songLyric);
         })
@@ -44,12 +43,23 @@
     },
     mounted(){
       this.$Eventbus.$on("lrcTimeUpDate", msg => {
-        console.log(msg);
-        if(this.songLyric[this.count].t){
+        if(this.count === 0){
+          this.$emit('songScorll',this.count)
+        }
+        if(this.songLyric.length !== 0){
           if(this.songLyric[this.count].t <= msg && msg <= this.songLyric[this.count+1].t){
-            this.count
+
           } else {
-            this.count++
+            if(this.count === this.songLyric.length-1){
+              this.count = 0
+            } else {
+              this.count++;
+              if(this.count >= 4){
+                // 让歌词滚动
+                this.$emit('songScorll',this.count-3)
+                console.log(this.count);
+              }
+            }
           }
         }
       })
@@ -69,5 +79,6 @@
   .lyric p.active{
     color: #fff;
     opacity: 1;
+    font-size: 14px;
   }
 </style>

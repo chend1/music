@@ -4,7 +4,10 @@
       上一页
     </div>
     <ul>
-      <li class="active">1</li>
+      <li v-for="(item,index) in totalCount" :key="index" :class="{ 'active': index === offset-1 }" @click="pagingClick(index+1)">
+        {{item}}
+      </li>
+      <!-- <li>1</li>
       <li>2</li>
       <li>3</li>
       <li>4</li>
@@ -13,8 +16,8 @@
       <li>7</li>
       <li>8</li>
       <li>9</li>
-      <span class="eil" v-if="totalCount > 10">...</span>
-      <li>{{totalCount}}</li>
+      <span class="eil">...</span>
+      <li>{{totalCount}}</li> -->
     </ul>
     <div class="back">
       下一页
@@ -26,14 +29,17 @@
   export default {
     name: 'Paging',
     props: {
+      // 总条数
       total: {
         type: Number,
         default: 0
       },
-      limit: {
+      // 每页显示条数
+      limit: { 
         type: Number,
         default: 50
       },
+      // 当前第几页数据
       offset: {
         type: Number,
         default: 1
@@ -50,6 +56,11 @@
       },
       list(){
 
+      }
+    },
+    methods: {
+      pagingClick(offset){
+        this.$emit('pagingClick',offset)
       }
     }
   }

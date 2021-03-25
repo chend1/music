@@ -2,7 +2,7 @@
   <div class="playlist wrap">
     <PlayListTop></PlayListTop>
     <ListItem :songSheet="playlist"></ListItem>
-    <Paging :total="total" :limit="limit" :offset="offset"></Paging>
+    <Paging :total="total" :limit="limit" :offset="offset" @pagingClick="pagingClick"></Paging>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
   import PlayListTop from './childCpn/PlayListTop.vue'
   import ListItem from './childCpn/ListItem.vue'
   import Paging from 'components/common/paging/Paging.vue'
-  import {getPlayList} from 'network/playlist'
+  import {getPlayList} from 'network/playlist' 
   export default {
     name: 'PlayList',
     components: {
@@ -35,6 +35,15 @@
       getPlayList('华语',50000).then( res => {
         // console.log(res);
       })
+    },
+    methods: {
+      pagingClick(offset){
+        getPlayList('','',offset).then( res => {
+          this.offset = offset
+          this.playlist = res.data.playlists;
+          console.log(this.playlist );
+        })
+      }
     }
   }
 </script>

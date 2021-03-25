@@ -32,7 +32,7 @@
 
 <script>
   export default {
-    name: 'PlayListItem',
+    name: 'PlayListItem',  
     props: {
       songSheetItem:{
         type: Object,

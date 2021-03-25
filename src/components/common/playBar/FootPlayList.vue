@@ -49,8 +49,8 @@
         </div>
         <div class="close" @click="closeClick"></div>
       </div>
-      <div class="lyric-wrap" @scroll="lrcScroll">
-        <Lyric></Lyric>
+      <div class="lyric-wrap" ref="lyricScroll">
+        <Lyric @songScorll="lrcScroll"></Lyric>
       </div>
     </div>
   </div>
@@ -67,7 +67,8 @@
     },
     data(){
       return {
-        localList: []
+        localList: [],
+        timer: null
       }
     },
     methods: {
@@ -76,8 +77,39 @@
         this.$emit('closeClick') 
       },
       // 监听歌词滚动
-      lrcScroll(e){
-        console.log(11);
+      lrcScroll(count){
+        this.timer = null
+        let distance = count*32,
+            start = this.$refs.lyricScroll.scrollTop;
+        if(count === 0){
+          this.$refs.lyricScroll.scrollTop = distance;
+          start = 0;
+        }
+        // this.timer = setInterval( () => {
+        //   start = start + 1;
+        //   if(start <= distance){
+        //     this.$refs.lyricScroll.scrollTop = start;
+        //   } 
+        // },10)
+        // if(start > distance) {
+        //   clearInterval(this.timer)
+        //   this.timer = null
+        //   console.log(start);
+        //   console.log('else');
+        // }
+        this.timer = setInterval( () => {
+          if(start < distance){
+            start++;
+            this.$refs.lyricScroll.scrollTop = start;
+          }
+          if(start > distance){
+            start--;
+            this.$refs.lyricScroll.scrollTop = start;
+          }
+        },10)
+        if(start === distance){
+          clearInterval(this.timer)
+        }
       }
     },
     created(){
@@ -208,5 +240,6 @@
     text-align: center;
     overflow-y: auto;
     margin-right: -17px;
+    transition: all .5s;
   }
 </style>
